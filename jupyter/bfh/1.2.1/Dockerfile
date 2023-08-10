@@ -48,6 +48,7 @@ RUN apt-get update && apt-get upgrade -y && \
       iputils-ping \
       tini \
       git \
+      wget \
       curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
