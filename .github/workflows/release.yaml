@@ -35,27 +35,20 @@ jobs:
           echo "::set-output name=dockerfiles::$(find . -type f -name Dockerfile)"
         shell: bash
 
-      - name: Extract framework and version
-        id: framework_version
+      - name: Build and push Docker images
         run: |
           for dockerfile in ${{ steps.files.outputs.dockerfiles }}
           do
             relative_path=$(realpath --relative-to=./jupyter $dockerfile)
             framework=$(dirname $relative_path | cut -d'/' -f1)
             version=$(basename $(dirname $relative_path))
+            
             echo "Processing Dockerfile for framework $framework version $version..."
-            echo "FRAMEWORK=$framework" >> $GITHUB_ENV
-            echo "VERSION=$version" >> $GITHUB_ENV
-          done
-        shell: bash
-
-      - name: Build and push Docker images
-        run: |
-          for dockerfile in ${{ steps.files.outputs.dockerfiles }}
-          do
+            
             # Extract the directory containing the Dockerfile to use as build context
             context_dir=$(dirname $dockerfile)
-            docker build -f $dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.FRAMEWORK }}-${{ env.VERSION }} $context_dir
-            docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.FRAMEWORK }}-${{ env.VERSION }}
+            
+            docker build -f $dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${framework}-${version} $context_dir
+            docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${framework}-${version}
           done
         shell: bash
