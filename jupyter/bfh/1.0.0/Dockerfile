@@ -40,16 +40,24 @@ RUN adduser \
   --force-badname \
   ${NB_USER}
 
-RUN apt-get update && \
-  apt-get upgrade -y && \
-  apt-get install -y --no-install-recommends \
-    ca-certificates \
-    dnsutils \
-    iputils-ping \
-    tini \
-# requirement for nbgitpuller
-    git && \
+# Install system dependencies
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+      ca-certificates \
+      dnsutils \
+      iputils-ping \
+      tini \
+      git \
+      curl && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Install Node.js >= 18.0.0 from NodeSource
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+
+# Check Node version (this is optional, but can be useful for debugging)
+RUN node -v
 
 # install wheels built in the build-stage
 COPY requirements.txt /tmp/requirements.txt
@@ -59,6 +67,8 @@ RUN --mount=type=cache,target=${PIP_CACHE_DIR} \
   pip install \
   --find-links=/tmp/wheels/ \
   -r /tmp/requirements.txt
+
+RUN jupyter lab build --dev-build=False --minimize=False
 
 WORKDIR ${HOME}
 USER ${NB_USER}
