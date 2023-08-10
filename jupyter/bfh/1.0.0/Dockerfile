@@ -20,10 +20,8 @@ FROM python:3.11-bullseye as build-stage
 COPY requirements.txt requirements.txt
 ARG PIP_CACHE_DIR=/tmp/pip-cache
 RUN --mount=type=cache,target=${PIP_CACHE_DIR} \
-  pip install build &&
-  pip wheel \
-    --wheel-dir=/tmp/wheels \
-    -r requirements.txt
+  pip install build && \
+  pip wheel --wheel-dir=/tmp/wheels -r requirements.txt
 
 # The final stage
 # ---------------
@@ -42,16 +40,16 @@ RUN adduser \
   --force-badname \
   ${NB_USER}
 
-RUN apt-get update &&
-  apt-get upgrade -y &&
+RUN apt-get update && \
+  apt-get upgrade -y && \
   apt-get install -y --no-install-recommends \
     ca-certificates \
     dnsutils \
     iputils-ping \
-    tini
+    tini \
 # requirement for nbgitpuller
-git &&
-  rm -rf /var/lib/apt/lists/*
+    git && \
+    rm -rf /var/lib/apt/lists/*
 
 # install wheels built in the build-stage
 COPY requirements.txt /tmp/requirements.txt
