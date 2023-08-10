@@ -53,7 +53,9 @@ jobs:
         run: |
           for dockerfile in ${{ steps.files.outputs.dockerfiles }}
           do
-            docker build -f $dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.FRAMEWORK }}-${{ env.VERSION }} .
+            # Extract the directory containing the Dockerfile to use as build context
+            context_dir=$(dirname $dockerfile)
+            docker build -f $dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.FRAMEWORK }}-${{ env.VERSION }} $context_dir
             docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.FRAMEWORK }}-${{ env.VERSION }}
           done
         shell: bash
