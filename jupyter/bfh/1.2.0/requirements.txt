@@ -319,7 +319,7 @@ traitlets==5.9.0
     #   nbclient
     #   nbconvert
     #   nbformat
-typing-extensions==4.7.1
+# typing-extensions==4.6.0
     # via
     #   alembic
     #   sqlalchemy
