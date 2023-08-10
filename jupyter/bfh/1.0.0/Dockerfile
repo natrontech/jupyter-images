@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1.3
+# syntax = docker/dockerfile:1.3 or higher
 # VULN_SCAN_TIME=2023-07-03_05:15:54
 
 # The build stage
