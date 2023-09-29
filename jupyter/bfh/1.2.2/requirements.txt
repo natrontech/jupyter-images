@@ -319,7 +319,7 @@ traitlets==5.9.0
     #   nbclient
     #   nbconvert
     #   nbformat
-# typing-extensions==4.6.0
+typing-extensions==4.7.1
     # via
     #   alembic
     #   sqlalchemy
@@ -337,10 +337,5 @@ webencodings==0.5.1
     #   tinycss2
 websocket-client==1.6.1
     # via jupyter-server
-# Custom BFH packages
-numpy==1.23.3
-pandas==2.0.3
-gensim==4.3.1
-scikit-learn==1.3.0
-tensorflow==2.13.0
-matplotlib==3.7.2
+jupyterlab-git==0.42.0
+    # via -r requirements.in
