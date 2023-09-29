@@ -319,7 +319,7 @@ traitlets==5.9.0
     #   nbclient
     #   nbconvert
     #   nbformat
-typing-extensions==4.7.1
+typing-extensions==4.5.0
     # via
     #   alembic
     #   sqlalchemy
@@ -339,3 +339,10 @@ websocket-client==1.6.1
     # via jupyter-server
 jupyterlab-git==0.42.0
     # via -r requirements.in
+numpy==1.24.3
+scikit-learn==1.3.1
+tensorboard==2.13.0
+tensorboard-data-server==0.7.1
+tensorflow==2.13.1
+tensorflow-estimator==2.13.0
+tensorflow-io-gcs-filesystem==0.34.0
